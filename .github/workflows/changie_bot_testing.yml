@@ -1,0 +1,40 @@
+name: Dependency Changelog
+
+on:
+  pull_request:
+    # catch when the PR is opened with the label or when the label is added
+    types: [opened, labeled]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  dependency_changelog:
+    runs-on: ubuntu-latest
+    name: a job to add a cahngelog yaml file to this PR
+
+    steps:
+    - name: Create Custom Multiline String
+      id: custom_string
+      run: |
+          CUSTOM_FIELDS=$(cat << EOF
+          custom:
+            Field 1: String
+            Field 2: 1
+            Field 3: a
+          )
+          echo "CUSTOM_FIELDS<<EOF" >> $GITHUB_ENV
+          echo "$CUSTOM_FIELDS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+    - name: Create Changelog Commit on PR
+      id: filename_time
+      uses: emmyoop/changie_bot_autogenerate@main
+      with:
+        bot_PAT:
+        commit_author: "Emily Rockman <emily@rockman.life>"
+        commit_message: "My custom commit message"
+        changie_kind: "Bug"
+        label: "my_custom"
+        custom_changelog_string: "${{ env.CUSTOM_FIELDS }}"
