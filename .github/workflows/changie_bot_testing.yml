@@ -12,7 +12,7 @@ permissions:
 jobs:
   dependency_changelog:
     runs-on: ubuntu-latest
-    name: a job to add a cahngelog yaml file to this PR
+    name: a job to add a changelog yaml file to this PR
 
     steps:
     - name: Create Custom Multiline String
@@ -32,8 +32,8 @@ jobs:
       id: filename_time
       uses: emmyoop/changie_bot_autogenerate@main
       with:
-        bot_PAT: ${{ secrets.GITHUB_TOKEN }}  # this is just a placeholder to get the rest working
-        commit_author: "Emily Rockman <emily@rockman.life>"
+        bot_PAT: ${{ secrets.EMMYOOP_BOT }}
+        commit_author: "emmyoop bot <emilyhayne@gmail.com>"
         commit_message: "My custom commit message"
         changie_kind: "Bug"
         label: "my_custom"
