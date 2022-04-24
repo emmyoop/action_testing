@@ -32,7 +32,7 @@ jobs:
       id: filename_time
       uses: emmyoop/changie_bot_autogenerate@main
       with:
-        bot_PAT:
+        bot_PAT: ${{ secrets.GITHUB_TOKEN }}  # this is just a placeholder to get the rest working
         commit_author: "Emily Rockman <emily@rockman.life>"
         commit_message: "My custom commit message"
         changie_kind: "Bug"
