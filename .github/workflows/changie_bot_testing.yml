@@ -33,6 +33,7 @@ jobs:
       uses: emmyoop/changie_bot_autogenerate@main
       with:
         bot_PAT: ${{ secrets.EMMYOOP_BOT }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         commit_author: "emmyoop bot <emilyhayne@gmail.com>"
         commit_message: "My custom commit message"
         changie_kind: "Bug"
