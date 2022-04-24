@@ -17,7 +17,8 @@ jobs:
     steps:
     - name: Create Custom Multiline String
       id: custom_string
-      run: echo -e "custom:\n  Field 1: Some String\n  Field 2: 1\n  Field 3: a\n" >> $GITHUB_ENV
+      run: |
+        echo -e "custom:\n  Field 1: Some String\n  Field 2: 1\n  Field 3: a\n" >> $GITHUB_ENV
 
     - name: Create Changelog Commit on PR
       id: filename_time
