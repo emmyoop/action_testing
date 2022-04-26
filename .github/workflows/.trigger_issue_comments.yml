@@ -11,14 +11,10 @@ permissions:
 
 jobs:
   triage_label:
-
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions-ecosystem/action-remove-labels@v1
+      - name: initial labeling
+        uses: andymckay/labeler@master
         with:
-          labels: awaiting_response
-      - uses: actions-ecosystem/action-add-labels@v1
-        with:
-          labels: triage
+          add-labels: "triage"
+          remove-labels: "awaiting_response"
