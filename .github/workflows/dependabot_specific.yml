@@ -19,6 +19,8 @@
 # is for the PRs created by dependabot.  You can also manually trigger this by adding the
 # `dependencies` label at any time.
 
+# make a change for the sake of change
+
 name: Dependency Changelog
 
 on:
