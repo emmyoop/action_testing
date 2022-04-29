@@ -1,7 +1,0 @@
-kind: Dependencies
-body: "Test dependabot action"
-time: 2022-04-29T13:34:38.000000-05:00
-custom:
-  Author: emmyoop
-  Issue: "4904"
-  PR: "7"
