@@ -50,14 +50,14 @@ jobs:
       build_script_path: ${{ github.event.inputs.build_script_path }}
 
   github_release:
-    needs: [test-build]
+    needs: [build]
     uses: dbt-labs/actions/.github/workflows/_github-release.yml@er/release
     with:
       sha: ${{ github.event.inputs.sha }}
       version_number: ${{ github.event.inputs.version_number }}
 
-  pypi_release:
-    needs: [github_release]
-    uses: dbt-labs/actions/.github/workflows/_pypi-release.yml@er/release
-    with:
-      is_prod: ${{ github.event.inputs.is_prod }}
+  # pypi_release:
+  #   needs: [github_release]
+  #   uses: dbt-labs/actions/.github/workflows/_pypi-release.yml@er/release
+  #   with:
+  #     is_prod: ${{ github.event.inputs.is_prod }}
