@@ -28,7 +28,7 @@ on:
 
 # TODO: validate
 permissions:
-  issues: write
+  contents: write
 
 jobs:
   log-inputs:
