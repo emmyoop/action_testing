@@ -102,7 +102,7 @@ jobs:
   test-build:
     name: verify packages
 
-    needs: [build, unit]
+    needs: [build]
 
     runs-on: ubuntu-latest
 
