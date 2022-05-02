@@ -22,9 +22,6 @@ on:
         default: 'false'
         required: true
         type: string
-    secrets:  # not sure if this should be here
-      PYPI_API_TOKEN:
-        required: true
     # outputs:
     #   name:
         # description: "Package name"
@@ -64,4 +61,3 @@ jobs:
     uses: dbt-labs/actions/.github/workflows/_pypi-release.yml@er/release
     with:
       is_prod: ${{ github.event.inputs.is_prod }}
-      PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
