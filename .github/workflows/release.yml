@@ -46,7 +46,7 @@ jobs:
             echo This a production build/release: ${{ inputs.is_prod }}
 
   build:
-    uses: dbt-labs/actions/.github/workflows/build.yml@er/release
+    uses: dbt-labs/actions/.github/workflows/_build.yml@er/release
     with:
       sha: ${{ inputs.sha }}
       version_number: ${{ inputs.version_number }}
@@ -54,14 +54,14 @@ jobs:
 
   github_release:
     needs: [test-build]
-    uses: dbt-labs/actions/.github/workflows/github-release.yml@er/release
+    uses: dbt-labs/actions/.github/workflows/_github-release.yml@er/release
     with:
       sha: ${{ inputs.sha }}
       version_number: ${{ inputs.version_number }}
 
   pypi_release:
     needs: [github_release]
-    uses: dbt-labs/actions/.github/workflows/pypi-release.yml@er/release
+    uses: dbt-labs/actions/.github/workflows/_pypi-release.yml@er/release
     with:
       is_prod: ${{ inputs.is_prod }}
       PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
