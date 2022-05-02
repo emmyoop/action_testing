@@ -9,6 +9,7 @@ on:
         type: string
       version_number:
         description: 'The release version number (ie. 1.0.0b1)'
+        default: '2.2.2'  # TODO: remvoe when done testing!
         required: true
         type: string
       build_script_path:
