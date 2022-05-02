@@ -25,35 +25,35 @@ defaults:
     shell: bash
 
 jobs:
-  unit:
-    name: Unit test
+  # unit:
+  #   name: Unit test
 
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
-    env:
-      TOXENV: "unit"
+  #   env:
+  #     TOXENV: "unit"
 
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
-          ref: ${{ github.event.inputs.sha }}
+  #   steps:
+  #     - name: Check out the repository
+  #       uses: actions/checkout@v2
+  #       with:
+  #         persist-credentials: false
+  #         ref: ${{ github.event.inputs.sha }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: 3.8
 
-      - name: Install python dependencies
-        run: |
-          pip install --user --upgrade pip
-          pip install tox
-          pip --version
-          tox --version
+  #     - name: Install python dependencies
+  #       run: |
+  #         pip install --user --upgrade pip
+  #         pip install tox
+  #         pip --version
+  #         tox --version
 
-      - name: Run tox
-        run: tox
+  #     - name: Run tox
+  #       run: tox
 
   build:
     name: build packages
@@ -179,21 +179,3 @@ jobs:
             dbt-postgres-${{github.event.inputs.version_number}}.tar.gz
             dbt-core-${{github.event.inputs.version_number}}.tar.gz
 
-  pypi-release:
-    name: Pypi release
-
-    runs-on: ubuntu-latest
-
-    needs: github-release
-
-    environment: PypiProd
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: dist
-          path: 'dist'
-
-      - name: Publish distribution to PyPI
-        uses: pypa/gh-action-pypi-publish@v1.4.2
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
