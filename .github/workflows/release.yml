@@ -49,6 +49,7 @@ jobs:
       sha: ${{ github.event.inputs.sha }}
       version_number: ${{ github.event.inputs.version_number }}
       build_script_path: ${{ github.event.inputs.build_script_path }}
+      package_test_command: pip freeze  # this should not be input, defaults to `dbt --version``
 
   github_release:
     needs: [build]
