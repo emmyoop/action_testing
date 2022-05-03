@@ -20,9 +20,9 @@ on:
       is_prod:
         # TODO: need an action to clean up test builds for testing purposes
         description: 'Is this a production build/release'
-        default: 'false'
+        default: false
         required: true
-        type: string
+        type: boolean
     # outputs:
     #   name:
         # description: "Package name"
@@ -57,6 +57,9 @@ jobs:
     with:
       sha: ${{ github.event.inputs.sha }}
       version_number: ${{ github.event.inputs.version_number }}
+      file_uploads: |
+        action_testing-${{github.event.inputs.version_number}}-py3-none-any.whl
+        action_testing-${{github.event.inputs.version_number}}.tar.gz
 
   # pypi_release:
   #   needs: [github_release]
