@@ -43,7 +43,7 @@ jobs:
       package_test_command: "pip freeze"  # this should not be input at this level, defaults to `dbt --version``
 
   github_release:
-    # needs: [build]
+    needs: [build]
     uses: dbt-labs/actions/.github/workflows/_github-release.yml@er/release
     with:
       sha: ${{ github.event.inputs.sha }}
