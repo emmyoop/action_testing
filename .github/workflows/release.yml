@@ -33,16 +33,16 @@ permissions:
 
 jobs:
 
-  build:
-    uses: dbt-labs/actions/.github/workflows/_build.yml@er/release
-    with:
-      sha: ${{ github.event.inputs.sha }}
-      version_number: ${{ github.event.inputs.version_number }}
-      build_script_path: ${{ github.event.inputs.build_script_path }}
-      package_test_command: "pip freeze"  # this should not be input at this level, defaults to `dbt --version``
+  # build:
+  #   uses: dbt-labs/actions/.github/workflows/_build.yml@er/release
+  #   with:
+  #     sha: ${{ github.event.inputs.sha }}
+  #     version_number: ${{ github.event.inputs.version_number }}
+  #     build_script_path: ${{ github.event.inputs.build_script_path }}
+  #     package_test_command: "pip freeze"  # this should not be input at this level, defaults to `dbt --version``
 
   github_release:
-    needs: [build]
+    # needs: [build]
     uses: dbt-labs/actions/.github/workflows/_github-release.yml@er/release
     with:
       sha: ${{ github.event.inputs.sha }}
