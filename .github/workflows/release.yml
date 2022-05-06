@@ -35,10 +35,6 @@ on:
 permissions:
   contents: write
 
-env:
-  s3_bucket: "whatevs"
-  package_test_command: "pip freeze"
-
 jobs:
   release_prep:
     uses: dbt-labs/actions/.github/workflows/_release-prep.yml@er/release
@@ -55,8 +51,8 @@ jobs:
       sha: ${{ needs.release_prep.outputs.final_sha }}
       version_number: ${{ github.event.inputs.version_number }}
       build_script_path: ${{ github.event.inputs.build_script_path }}
-      s3_bucket: ${{ env.s3_bucket }}
-      package_test_command: ${{ env.package_test_command }}  # this should not be input at this level, defaults to `dbt --version``
+      s3_bucket: whatevs
+      package_test_command: pip freeze  # this should not be input at this level, defaults to `dbt --version``
 
   github_release:
     needs: [build]
