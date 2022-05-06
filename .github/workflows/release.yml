@@ -51,8 +51,11 @@ jobs:
       sha: ${{ needs.release_prep.outputs.final_sha }}
       version_number: ${{ github.event.inputs.version_number }}
       build_script_path: ${{ github.event.inputs.build_script_path }}
-      s3_bucket: whatevs
+      s3_bucket_name: whatevs
       package_test_command: pip freeze  # this should not be input at this level, defaults to `dbt --version``
+    secrets:
+      AWS_ACCESS_KEY_ID: abc
+      AWS_SECRET_ACCESS_KEY: 123
 
   github_release:
     needs: [build]
