@@ -18,7 +18,9 @@ jobs:
     - name: Create Custom Multiline String
       id: custom_string
       run: |
-        echo -e "custom:\n  Field 1: Some String\n  Field 2: 1\n  Field 3: a\n" >> $GITHUB_ENV
+        custom_fields="custom:\n  Field 1: Some String\n  Field 2: 1\n  Field 3: a\n"
+        echo '::set-output name=custom_fields::$custom_fields'
+
 
     - name: Create Changelog Commit on PR
       id: filename_time
@@ -30,4 +32,4 @@ jobs:
         commit_message: "My custom commit message"
         changie_kind: "Bug"
         label: "my_custom"
-        custom_changelog_string: "${{ env.CUSTOM_FIELDS }}"
+        custom_changelog_string: "${{ steps.custom_string.outputs.custom_fields }}"
