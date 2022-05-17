@@ -1,4 +1,4 @@
-name: Dependency Changelog
+name: Changie Master Action
 
 on:
   pull_request:
