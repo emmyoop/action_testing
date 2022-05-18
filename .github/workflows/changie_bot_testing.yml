@@ -1,4 +1,4 @@
-name: Dependency Changelog
+name: Changie Master Action
 
 on:
   pull_request:
@@ -15,19 +15,14 @@ jobs:
     name: a job to add a changelog yaml file to this PR
 
     steps:
-    - name: Create Custom Multiline String
-      id: custom_string
-      run: |
-        echo -e "custom:\n  Field 1: Some String\n  Field 2: 1\n  Field 3: a\n" >> $GITHUB_ENV
-
+    
     - name: Create Changelog Commit on PR
       id: filename_time
-      uses: emmyoop/changie_bot_autogenerate@main
+      uses: emmyoop/changie_bot@v0.1
       with:
-        bot_PAT: ${{ secrets.EMMYOOP_BOT }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # could be ${{ secrets.EMMYOOP_BOT }}
         commit_author: "emmyoop bot <emilyhayne@gmail.com>"
         commit_message: "My custom commit message"
         changie_kind: "Bug"
         label: "my_custom"
-        custom_changelog_string: "${{ env.CUSTOM_FIELDS }}"
+        custom_changelog_string: "custom:\n  Field 1: Some String\n  Field 2: 1\n  Field 3: a\n"
