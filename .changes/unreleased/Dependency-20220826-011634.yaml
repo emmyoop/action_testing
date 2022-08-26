@@ -1,0 +1,7 @@
+kind: Dependency
+body: "Test 2"
+time: 2022-08-26T01:16:34.00000Z
+custom:
+  Author: emmyoop
+  Issue: 4904
+  PR: 20
