@@ -1,4 +1,29 @@
-name: Changie Master Action
+# **what?**
+# When bots create a PR, this action will add a corresponding changie yaml file to that
+# PR when a specific label is added.
+#
+# The file is created off a template:
+#
+# kind: <per action matrix>
+# body: <PR title>
+# time: <current timestamp>
+# custom:
+#   Author: <PR User Login (generally the bot)>
+#   Issue: 4904
+#   PR: <PR number>
+#
+# **why?**
+# Automate changelog generation for more visability with automated bot PRs.
+#
+# **when?**
+# Once a PR is created, label should be added to PR before or after creation. You can also
+#  manually trigger this by adding the appropriate label at any time.
+#
+# **how to add another bot?**
+# Add the label and changie kind to the include matrix.  That's it!
+#
+
+name: Bot Changelog
 
 on:
   pull_request:
@@ -10,20 +35,27 @@ permissions:
   pull-requests: read
 
 jobs:
-  dependency_changelog:
+  generate_changelog:
+    strategy:
+      matrix:
+        include:
+          - label: "dependencies"
+            changie_kind: "Dependency"
+          - label: "snyk"
+            changie_kind: "Security"
     runs-on: ubuntu-latest
-    name: a job to add a changelog yaml file to this PR
 
     steps:
-    
-    - name: Create Changelog Commit on PR
-      id: filename_time
-      uses: emmyoop/changie_bot@main
+
+    - name: Create and commit changelog on bot PR
+      if: "contains(github.event.pull_request.labels.*.name, ${{ matrix.label }})"
+      id: bot_changelog
+      uses: emmyoop/changie_bot@v1.0
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # could be ${{ secrets.EMMYOOP_BOT }}
-        commit_author_name: "emmyoop bot"
-        commit_author_email: "<emilyhayne@gmail.com>"
-        commit_message: "My custom commit message"
-        changie_kind: "Bug"
-        label: "my_custom"
-        custom_changelog_string: "custom:\n  Field 1: Some String\n  Field 2: 1\n  Field 3: a\n"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        commit_author_name: "Github Build Bot"
+        commit_author_email: "<buildbot@fishtownanalytics.com>"
+        commit_message: "Add automated changelog yaml from template for bot PR"
+        changie_kind: ${{ matrix.changie_kind }}
+        label: ${{ matrix.label }}
+        custom_changelog_string: "custom:\n  Author: ${{ github.event.pull_request.user.login }}\n  Issue: 4904\n  PR: ${{ github.event.pull_request.number }}"
