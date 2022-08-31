@@ -48,7 +48,10 @@ jobs:
     steps:
     - name: Debug 1
       if: "contains(github.event.pull_request.labels.*.name, '${{ matrix.label }}')"
-      run: echo "in contains"
+      run: |
+        echo "in contains"
+        echo '${{ matrix.label }}'
+        echo ${{ matrix.label }}
     - name: Debug 2
       if: "!contains(github.event.pull_request.labels.*.name, '${{ matrix.label }}')"
       run: echo "in !contains"
