@@ -49,6 +49,7 @@ jobs:
     - name: Debug Lines
       run: |
         echo Label: ${{ matrix.label }}
+        echo list: ${{github.event.pull_request.labels}}
 
     - name: Create and commit changelog on bot PR
       if: "contains(github.event.pull_request.labels.*.name, '${{ matrix.label }}')"
