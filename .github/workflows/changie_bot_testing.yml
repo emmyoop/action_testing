@@ -47,7 +47,6 @@ jobs:
 
     steps:
     - name: Debug Lines
-      uses: bash
       run: |
         echo Label: ${{ matrix.label }}
 
