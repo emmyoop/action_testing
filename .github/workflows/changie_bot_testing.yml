@@ -71,8 +71,16 @@ jobs:
       if: "!contains(github.event.pull_request.labels.*.name, '<${{ matrix.label }}>')"
       run: echo "in not carrot contains"
     - name: debug 8
-      if: "contains(github.event.pull_request.labels.*.name, 'dependencies')"
+      if: "contains(github.event.labeled.labels.*.name, 'dependencies')"
       run: echo made it here
+    - name: Debug 9
+      if: ${{ contains(github.event.pull_request.labels.*.name, '${{ matrix.label }}') }}
+      run: |
+        echo "in contains"
+    - name: Debug 10
+      if: ${{ !contains(github.event.pull_request.labels.*.name, '${{ matrix.label }}') }}
+      run: |
+        echo "in not contains"
 
     # - name: Create and commit changelog on bot PR
     #   if: "contains(github.event.pull_request.labels.*.name, '${{ matrix.label }}')"
