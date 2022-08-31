@@ -46,6 +46,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Debug Lines
+      uses: bash
+      run: |
+        echo Label: ${{ matrix.label }}
 
     - name: Create and commit changelog on bot PR
       if: "contains(github.event.pull_request.labels.*.name, '${{ matrix.label }}')"
