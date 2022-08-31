@@ -48,14 +48,7 @@ jobs:
     steps:
 
     - name: Create and commit changelog on bot PR
-      if: "contains(github.event.pull_request.labels.*.name, '${{ matrix.label }}')"
-      id: bot_changelog_debug
-      run: |
-        echo in if
-        echo ${{ matrix.label }}
-
-    - name: Create and commit changelog on bot PR
-      if: "contains(github.event.pull_request.labels.*.name, '${{ matrix.label }}')"
+      if: ${{ contains(github.event.pull_request.labels.*.name, '${{ matrix.label }}') }}
       id: bot_changelog
       uses: emmyoop/changie_bot@main
       with:
