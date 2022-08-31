@@ -1,0 +1,7 @@
+kind: "Dependency"
+body: "Emmyoop patch 6"
+time: $(date +%Y-%m-%dT%H:%M:%S.00000Z)
+custom:
+  Author: emmyoop
+  Issue: 4904
+  PR: 38
