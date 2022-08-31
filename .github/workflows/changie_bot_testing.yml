@@ -48,10 +48,9 @@ jobs:
     steps:
     - name: Debug Lines
       run: |
-        echo Label: ${{ matrix.label }}
-        x=${{ toJson(github.event.pull_request.labels.*.name) }}
-        echo list: $x
-        echo Label name: ${{ github.event.label.name }}
+        echo Label ${{ matrix.label }}
+        all_labels=${{ toJson(github.event.pull_request.labels.*.name) }}
+        echo Label Action ${{ github.event.label.name }}
 
     - name: Create and commit changelog on bot PR
       if: "contains(github.event.pull_request.labels.*.name, '${{ matrix.label }}')"
