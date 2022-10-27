@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       issueId: ${{ steps.extract.outputs.issueId }}
-      STRING_VAR: ${{ steps.extract.outputs.STRING_VAR }}
       SET_TITLE: ${{ steps.extract.outputs.SET_TITLE }}
 
     steps:
@@ -24,9 +23,8 @@ jobs:
           TITLE: "[CT-1428] just testing"
         run: |
           issueId=$(echo -n "${{env.TITLE}}" | awk '{print $1}' | awk -F'[][]' '{print $2}')
-          echo "issueId=$issueId" >> $GITHUB_STATE
-          echo "SET_TITLE="${{env.TITLE}} >> $GITHUB_STATE
-          echo "STRING_VAR="some value" >> $GITHUB_STATE
+          echo "issueId=$issueId" >> $GITHUB_OUTPUT
+          echo "SET_TITLE="${{env.TITLE}} >> $GITHUB_OUTPUT
           echo "Title:               ${{env.TITLE}}"
           echo "issueId:               $issueId"
       - name: Print output
@@ -34,7 +32,6 @@ jobs:
         run: |
           echo "Title:               ${{env.SET_TITLE}}"
           echo "Issue ID:            ${{ steps.extract.outputs.issueId }}"
-          echo "STRING_VAR:          ${{ steps.extract.outputs.STRING_VAR }}"
 
   job_2:
     runs-on: ubuntu-latest
@@ -48,5 +45,3 @@ jobs:
           echo "Issue ID:            ${{ needs.job_1.outputs.issueId }}"
           echo "Issue ID: (env)      ${{ env.issueId }}"
           echo "SET_TITLE:           ${{ env.SET_TITLE }}"
-          echo "STRING_VAR:           ${{ needs.job_1.outputs.STRING_VAR }}"
-          echo "STRING_VAR:           ${{ env.STRING_VAR }}"
