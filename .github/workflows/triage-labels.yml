@@ -15,4 +15,5 @@ jobs:
     with:
       original_label: "awaiting_response"
       new_label: "triage"
-    secrets: inherit
+    secrets: 
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
