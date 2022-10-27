@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       issueId: ${{ steps.extract.outputs.issueId }}
+      SET_TITLE: ${{ steps.extract.outputs.SET_TITLE }}
 
     steps:
       - name: Set output
@@ -43,3 +44,4 @@ jobs:
           echo "all variables defined as ouputs in previous jobs"
           echo "Issue ID:            ${{ needs.job_1.outputs.issueId }}"
           echo "Issue ID: (env)      ${{ env.issueId }}"
+          echo "SET_TITLE:           ${{ env.SET_TITLE }}"
