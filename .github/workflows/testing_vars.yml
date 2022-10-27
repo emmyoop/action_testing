@@ -18,13 +18,13 @@ jobs:
     steps:
       - name: Set output
         id: extract
-        env:
-          TITLE: "[CT-1428] just testing"
         run: |
           issueId=$(echo -n ${TITLE} | awk '{print $1}' | awk -F'[][]' '{print $2}')
           echo "issueId=${issueId}" >> $GITHUB_STATE
           echo "Title:               ${{env.TITLE}}"
           echo "Title:               $TITLE"
+        env:
+          TITLE: "[CT-1428] just testing"
       - name: Print output
         id: echo
         run: |
