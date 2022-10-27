@@ -26,6 +26,7 @@ jobs:
       - name: Print output
         id: echo
         run: |
+          echo "Title:               $TITLE"
           echo "Issue ID:            ${{ steps.extract.outputs.issueId }}"
 
   job_2:
