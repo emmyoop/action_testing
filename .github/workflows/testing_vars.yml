@@ -22,7 +22,7 @@ jobs:
           TITLE: "[CT-1428] just testing"
         run: |
           issueId=$(echo -n "${{env.TITLE}}" | awk '{print $1}' | awk -F'[][]' '{print $2}')
-          echo "issueId="${issueId} >> $GITHUB_STATE
+          echo "issueId=$issueId" >> $GITHUB_STATE
           echo "SET_TITLE="${{env.TITLE}} >> $GITHUB_STATE
           echo "Title:               ${{env.TITLE}}"
           echo "issueId:               $issueId"
