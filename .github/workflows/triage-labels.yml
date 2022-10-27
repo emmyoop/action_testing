@@ -1,0 +1,15 @@
+name: Update Triage Label
+
+on: issue_comment
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  issues: write
+
+jobs:
+  triage_label:
+    uses: dbt-labs/actions/.github/workflows/triage-labels.yml@main
+    secrets: inherit
