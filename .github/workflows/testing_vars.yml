@@ -1,0 +1,36 @@
+
+
+
+name: "Testing Passing Around Variables"
+
+on:
+  workflow_dispatch:
+
+
+permissions: read-all
+
+jobs:
+  job_1:
+    runs-on: ubuntu-latest
+    outputs:
+      issueId: ${{ steps.extract.outputs.issueId }}
+
+    steps:
+      - name: Set output
+        id: extract
+        env:
+          TITLE: "[CT-1428] just testing"
+        run: |
+          issueId=$(echo -n $TITLE | awk '{print $1}' | awk -F'[][]' '{print $2}')
+          echo "issueId=${issueId}" >> $GITHUB_STATE
+
+  job_2:
+    runs-on: ubuntu-latest
+    needs: job_1
+    steps:
+      - name: "Print Job 1 Outputs"
+        shell: bash
+        id: echo_inputs
+        run: |
+          echo "all variables defined as ouputs in previous jobs"
+          echo "Issue ID:            ${{ needs.job_1.outputs.issueId }}"
