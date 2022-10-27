@@ -1,4 +1,4 @@
-name: Update Triage Label
+name: Update Triage Label Internal
 
 on: issue_comment
 
