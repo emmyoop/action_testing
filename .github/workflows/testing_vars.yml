@@ -24,7 +24,7 @@ jobs:
           issueId=$(echo -n ${TITLE} | awk '{print $1}' | awk -F'[][]' '{print $2}')
           echo "issueId=${issueId}" >> $GITHUB_STATE
           echo "Title:               ${{env.TITLE}}"
-          echo "Title:               env.TITLE"
+          echo "Title:               $TITLE"
       - name: Print output
         id: echo
         run: |
