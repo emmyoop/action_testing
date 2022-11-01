@@ -4,7 +4,8 @@
 name: Jira Issue Creation
 
 on:
-  workflow_dispatch:
+  issues:
+    types: [opened, labeled]
 
 permissions:
   issues: read
@@ -39,22 +40,6 @@ jobs:
         run: |
           echo "all variables defined as ouputs in previous jobs"
           echo "Running for label:   ${{ matrix.label }}"
-
-  print-labels-unformatted-matrix:
-    runs-on: ubuntu-latest
-    needs:
-      - find-labels
-    strategy:
-      matrix:
-        label: ${{ needs.find-labels.outputs.labels-unformatted }}
-    steps:
-      - name: "[DEBUG] - Print Job Inputs"
-        shell: bash
-        id: echo_inputs
-        run: |
-          echo "all variables defined as ouputs in previous jobs"
-          echo "Running for label:   ${{ matrix.label }}"
-
 
   print-labels-list:
     runs-on: ubuntu-latest
