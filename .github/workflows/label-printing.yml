@@ -16,15 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       labels-json: ${{ steps.generate-labels.outputs.labels }}
-      labels-unformatted: ${{ steps.generate-labels.outputs.labels }}
     steps:
       - name: Generate Labels
         id: generate-labels
         run: |
           LABELS='${{ toJSON(github.event.issue.labels.*.name) }}'
           echo "labels-json=${LABELS}" >> $GITHUB_OUTPUT
-          LABELS-UNFORMATTED='${{ github.event.issue.labels.*.name }}'
-          echo "labels-unformatted=${LABELS-UNFORMATTED}" >> $GITHUB_OUTPUT
 
   print-labels-json-matrix:
     runs-on: ubuntu-latest
