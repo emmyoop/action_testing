@@ -1,7 +1,7 @@
 # **what?**
 # grab multiple labels off an issue and run as a matrix
 
-name: Jira Issue Creation
+name: Label Play
 
 on:
   issues:
@@ -15,28 +15,28 @@ jobs:
   find-labels:
     runs-on: ubuntu-latest
     outputs:
-      labels-json: ${{ steps.generate-labels.outputs.labels }}
+      labels: ${{ steps.generate-labels.outputs.labels }}
     steps:
       - name: Generate Labels
         id: generate-labels
         run: |
           LABELS='${{ toJSON(github.event.issue.labels.*.name) }}'
-          echo "labels-json=${LABELS}" >> $GITHUB_OUTPUT
+          echo "labels=${LABELS}" >> $GITHUB_OUTPUT
 
-  print-labels-json-matrix:
-    runs-on: ubuntu-latest
-    needs:
-      - find-labels
-    strategy:
-      matrix:
-        label: ${{ fromJSON(needs.find-labels.outputs.labels-json) }}
-    steps:
-      - name: "[DEBUG] - Print Job Inputs"
-        shell: bash
-        id: echo_inputs
-        run: |
-          echo "all variables defined as ouputs in previous jobs"
-          echo "Running for label:   ${{ matrix.label }}"
+#   print-labels-json-matrix:
+#     runs-on: ubuntu-latest
+#     needs:
+#       - find-labels
+#     strategy:
+#       matrix:
+#         label: ${{ fromJSON(needs.find-labels.outputs.labels) }}
+#     steps:
+#       - name: "[DEBUG] - Print Job Inputs"
+#         shell: bash
+#         id: echo_inputs
+#         run: |
+#           echo "all variables defined as ouputs in previous jobs"
+#           echo "Running for label:   ${{ matrix.label }}"
 
   print-labels-list:
     runs-on: ubuntu-latest
@@ -48,7 +48,7 @@ jobs:
         id: echo_inputs
         run: |
           echo "all variables defined as ouputs in previous jobs"
-          echo "fromJSON label:       ${{ fromJSON(needs.find-labels.outputs.labels-json) }}"
-          echo "Plain text label:     ${{ needs.find-labels.outputs.labels-json }}"
+          echo "fromJSON label:       ${{ fromJSON(needs.find-labels.outputs.labels) }}"
+          echo "Plain text label:     ${{ needs.find-labels.outputs.labels }}"
 
 
