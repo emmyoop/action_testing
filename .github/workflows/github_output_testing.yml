@@ -1,0 +1,77 @@
+# **what?**
+# This workflow will take the new version number to bump to. With that
+# it will run versionbump to update the version number everywhere in the
+# code base and then run changie to create the corresponding changelog.
+# A PR will be created with the changes that can be reviewed before committing.
+
+# **why?**
+# This is to aid in releasing dbt and making sure we have updated
+# the version in all places and generated the changelog.
+
+# **when?**
+# This is triggered manually
+
+name: Version Bump
+
+on:
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  set-vars:
+    runs-on: ubuntu-latest
+    outputs:
+      package_name: ${{ steps.variables.outputs.package_name }}
+    steps:
+      - name: Set output value
+        id: variables
+        run: |
+          echo "package_name=dashes-are-cool" >> $GITHUB_OUTPUT
+          
+  transform-vars-1:
+    runs-on: ubuntu-latest
+    needs: [set-vars]
+    outputs:
+      build_arg_name1: ${{ steps.variables.outputs.build_arg_name1 }}
+    steps:
+      - name: Set output value
+        id: variables
+        run: |
+          echo "build_arg_name1="$(echo ${{ needs.set-vars.outputs.package_name }} | sed 's/\-/_/g') >> $GITHUB_OUTPUT
+          
+  transform-vars-2:
+    runs-on: ubuntu-latest
+    needs: [set-vars]
+    outputs:
+      build_arg_name2: ${{ steps.variables.outputs.build_arg_name2 }}
+    steps:
+      - name: Set output value
+        id: variables
+        run: |
+          echo "build_arg_name2=$(echo ${{ needs.set-vars.outputs.package_name }} | sed 's/\-/_/g')" >> $GITHUB_OUTPUT
+
+          
+  transform-vars-3:
+    runs-on: ubuntu-latest
+    needs: [set-vars]
+    outputs:
+      build_arg_name3: ${{ steps.variables.outputs.build_arg_name3 }}
+    steps:
+      - name: Set output value
+        id: variables
+        run: |
+          PACKAGE_NAME=$(echo ${{ needs.set-vars.outputs.package_name }} | sed 's/\-/_/g')
+          echo "build_arg_name3=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+
+          
+  print-vars:
+    runs-on: ubuntu-latest
+    needs: [transform-vars-1, transform-vars-2, transform-vars-3]
+    steps:
+      - name: Print Vars
+        id: print
+        run: |
+          echo "${{ needs.transform-vars-1.outputs.build_arg_name1 }}"
+          echo "${{ needs.transform-vars-2.outputs.build_arg_name2 }}"
+          echo "${{ needs.transform-vars-3.outputs.build_arg_name3 }}"
