@@ -13,7 +13,9 @@ jobs:
     steps:
       - name: Set Core Team Membership for Changie Contributors exclusion
         run: |
-          gh api -H 'Accept: application/vnd.github+json' /orgs/${{ env.ORG }}/teams/${{ env.TEAM }}/members
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            /orgs/${{ env.ORG }}/teams/${{ env.TEAM }}/members
           echo ${{ env.ORG }}
           echo ${{ env.TEAM}}
           echo 'CHANGIE_CORE_TEAM=?' >> $GITHUB_ENV
