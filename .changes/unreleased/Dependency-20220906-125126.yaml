@@ -1,7 +1,0 @@
-kind: "Dependency"
-body: "change"
-time: $(date +%Y-%m-%dT%H:%M:%S.00000Z)
-custom:
-  Author: emmyoop
-  Issue: 4904
-  PR: 45
