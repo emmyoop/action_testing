@@ -2,29 +2,38 @@ changesDir: .changes
 unreleasedDir: unreleased
 headerPath: header.tpl.md
 versionHeaderPath: ""
-versionFooterPath: ""
 changelogPath: CHANGELOG.md
 versionExt: md
-versionFormat: '## {{.Version}} - {{.Time.Format "2006-01-02"}}'
+versionFormat: '## changie_bot {{.Version}} - {{.Time.Format "January 02, 2006"}}'
 kindFormat: '### {{.Kind}}'
-changeFormat: '* {{.Body}}'
-headerFormat: ""
-footerFormat: ""
+changeFormat: '- {{.Body}} ([#{{.Custom.Issue}}](https://github.com/emmyoop/changie_bot/issues/{{.Custom.Issue}}), [#{{.Custom.PR}}](https://github.com/emmyoop/changie_bot/pull/{{.Custom.PR}}))'
+
 kinds:
-- label: Added
-- label: Changed
-- label: Deprecated
-- label: Removed
-- label: Fixed
-- label: Security
+  - label: Breaking Changes
+  - label: Features
+  - label: Fixes
+  - label: Docs
+    changeFormat: '- {{.Body}} ([dbt-docs/#{{.Custom.Issue}}](https://github.com/dbt-labs/dbt-docs/issues/{{.Custom.Issue}}), [dbt-docs/#{{.Custom.PR}}](https://github.com/dbt-labs/dbt-docs/pull/{{.Custom.PR}}))'
+  - label: Under the Hood
+  - label: Dependencies
+    changeFormat: '- {{.Body}} ({{if ne .Custom.Issue ""}}[#{{.Custom.Issue}}](https://github.com/dbt-labs/dbt-core/issues/{{.Custom.Issue}}), {{end}}[#{{.Custom.PR}}](https://github.com/dbt-labs/dbt-core/pull/{{.Custom.PR}}))'
+  - label: Security
+    changeFormat: '- {{.Body}} ({{if ne .Custom.Issue ""}}[#{{.Custom.Issue}}](https://github.com/dbt-labs/dbt-core/issues/{{.Custom.Issue}}), {{end}}[#{{.Custom.PR}}](https://github.com/dbt-labs/dbt-core/pull/{{.Custom.PR}}))'
+
+
+newlines:
+  afterChangelogHeader: 1
+  afterKind: 1
+  afterChangelogVersion: 1
+  beforeKind: 1
+  endOfVersion: 1
+
 custom:
-- key: Field 1
-  label: String Field
+- key: Author
+  label: GitHub Username(s) (separated by a single space if multiple)
   type: string
-- key: Field 2
-  label: Int Field
-  type: int
-- key: Field 3
-  label: Enum Field
-  type: enum
-  enumOptions: ["a", "b"]
+  minLength: 3
+- key: Issue
+  label: GitHub Issue Number
+  type: string
+  minInt: 3
