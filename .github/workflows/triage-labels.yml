@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   triage_label:
-    uses: dbt-labs/actions/.github/workflows/swap-labels.yml@main
+    uses: dbt-labs/actions/.github/workflows/swap-labels.yml@er/add-labeler
     with:
       add_label: "triage"
       remove_label: "awaiting_response"
