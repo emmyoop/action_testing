@@ -85,11 +85,11 @@ jobs:
     steps:
       - name: "Create dummy changelog"
         run: |
-          echo "This is the fancy changelog!" > ${{ inputs.changelog_path}}
+          echo "This is the fancy changelog!" > "${{ inputs.changelog_path}}"
 
       - name: "Create dummy artifact"
         run: |
-          echo "This is the atrifact!" > dist/my_artifact.txt
+          echo "This is the atrifact!" > "dist/my_artifact.txt"
 
       - name: "Upload Build Artifact - ${{ inputs.version_number }}"
         uses: actions/upload-artifact@v3
