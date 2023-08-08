@@ -19,7 +19,7 @@ jobs:
   open_issues:
     uses: dbt-labs/actions/.github/workflows/open_issue_in_repo.yml@er/docs-issue
     with:
-        issue_repository: "emmyoop/dbt-labs-test"
+        issue_repository: "emmyoop/basic-dbt"
         issue_title: "This is my title"
         issue_body: "This is the issue body"
         # issue_template:
