@@ -22,4 +22,4 @@ jobs:
         issue_title: "This is my title"
         issue_body: "This is the issue body"
         # issue_template:
-    secrets: inherit # this is only acceptable because we own the action we're calling
+    secrets: inherit
