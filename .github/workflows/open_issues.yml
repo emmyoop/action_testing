@@ -11,12 +11,10 @@ defaults:
 permissions:
   issues: write
 
-env:
-  required_label: 'needs-docs'
 
 jobs:
-  if: "contains(github.event.pull_request.labels.*.name, env.required_label)"
   open_issues:
+    if: contains( github.event.pull_request.labels.*.name, 'needs-docs')
     uses: dbt-labs/actions/.github/workflows/open_issue_in_repo.yml@er/docs-issue
     with:
         issue_repository: "emmyoop/basic-dbt"
