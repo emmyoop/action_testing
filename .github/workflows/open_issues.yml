@@ -20,6 +20,6 @@ jobs:
     with:
         issue_repository: "emmyoop/action_testing"
         issue_title: "This is my title"
-        issue_body: "This is the issue body"
+        issue_body: "This is the issue body\n\nIt can have multiple lines\n\n### And even markdown!"
     secrets:
         FISHTOWN_BOT_PAT: ${{ secrets.FISHTOWN_BOT_PAT }}
