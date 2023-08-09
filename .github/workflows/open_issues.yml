@@ -2,7 +2,7 @@ name: Open issues in another repo when a PR is labeled
 
 on:
   pull_request:
-    types: [opened, reopened, labeled, unlabeled, synchronize]
+    types: [closed, labeled]
 
 defaults:
   run:
@@ -14,12 +14,28 @@ permissions:
 
 
 jobs:
+  generate_body:
+    if: contains( github.event.pull_request.labels.*.name, 'needs-docs') && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    outputs:
+        first_line: ${{ steps.set_body.outputs.first_line }}
+        second_line: ${{ steps.set_body.outputs.second_line }}
+        third_line: ${{ steps.set_body.outputs.third_line }}
+    steps:
+      - name: Get issue title
+        id: set_body
+        run: |
+            echo "first_line=Link to the page on docs.getdbt.com requiring updates" >> $GITHUB_ENV
+            echo "second_line=What part(s) of the page would you like to see updated?" >> $GITHUB_ENV
+            echo "third_line=Additional information" >> $GITHUB_ENV
+
   open_issues:
-    if: contains( github.event.pull_request.labels.*.name, 'needs-docs')
+    needs: [generate_body]
     uses: dbt-labs/actions/.github/workflows/open-issue-in-repo.yml@er/docs-issue
     with:
         issue_repository: "emmyoop/action_testing"
         issue_title: "This is my title"
         issue_body: "This is the issue body\n\nIt can have multiple lines\n\n### And even markdown!"
+        labels: "needs-docs,bug"
     secrets:
         FISHTOWN_BOT_PAT: ${{ secrets.FISHTOWN_BOT_PAT }}
