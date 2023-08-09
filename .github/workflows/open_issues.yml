@@ -20,7 +20,7 @@ jobs:
     with:
         issue_repository: "emmyoop/action_testing"
         issue_title: "This is my title"
-        issue_body: "This is the issue body"
-        # issue_template:
+        # issue_body: "This is the issue body"
+        issue_template: "big-report.yml"
     secrets:
         FISHTOWN_BOT_PAT: ${{ secrets.FISHTOWN_BOT_PAT }}
