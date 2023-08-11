@@ -51,7 +51,7 @@ jobs:
       id: custom
       shell: bash
       run: |
-        CUSTOM_FIELDS='{"Author": emmyoop, "Issue": 1234}'
+        CUSTOM_FIELDS='{"Author": "emmyoop", "Issue": "1234"}'
         echo "fields=$CUSTOM_FIELDS" >> $GITHUB_OUTPUT
     
     - name: Create and commit changelog on bot PR
