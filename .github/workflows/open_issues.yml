@@ -1,0 +1,47 @@
+name: Open issues in another repo when a PR is labeled
+run-name: "Open an issue in action_testing when a merged PR is labeled user doc"
+
+on:
+  pull_request:
+    types: [closed, labeled]
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+    issues: write # opens new issues
+    pull-requests: write # comments on PRs
+
+
+jobs:
+  generate_body:
+    if: contains( github.event.pull_request.labels.*.name, 'needs-docs') && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    outputs:
+      issue_body: ${{ steps.set_body.outputs.issue_body }}
+    steps:
+      - name: Get issue title
+        id: set_lines
+        run: |
+            echo "first_line=### Link to the page on docs.getdbt.com requiring updates" >> $GITHUB_OUTPUT
+            echo "second_line=### What part(s) of the page would you like to see updated?" >> $GITHUB_OUTPUT
+            echo "third_line=### Additional information" >> $GITHUB_OUTPUT
+
+      - name: Set issue body
+        id: set_body
+        run: |
+          issue_body="${{steps.set_lines.outputs.first_line }}\n\n${{steps.set_lines.outputs.second_line }}\n\n${{steps.set_lines.outputs.third_line }}"
+          echo $issue_body
+          echo "issue_body=$issue_body" >> $GITHUB_OUTPUT
+
+  open_issues:
+    needs: [generate_body]
+    uses: dbt-labs/actions/.github/workflows/open-issue-in-repo.yml@er/docs-issue
+    with:
+        issue_repository: "emmyoop/action_testing"
+        issue_title: "This is my title"
+        issue_body: "${{needs.generate_body.outputs.issue_body }}"
+        issue_labels: "needs-docs,bug"
+    secrets:
+        FISHTOWN_BOT_PAT: ${{ secrets.FISHTOWN_BOT_PAT }}
