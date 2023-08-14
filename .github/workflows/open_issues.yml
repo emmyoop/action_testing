@@ -31,9 +31,9 @@ jobs:
       - name: Set issue body
         id: set_body
         run: |
-          issue_body="${{steps.set_lines.outputs.first_line }}\n\n ${{steps.set_lines.outputs.second_line }}\n\n ${{steps.set_lines.outputs.third_line }}"
+          issue_body=${{steps.set_lines.outputs.first_line }}\n\n ${{steps.set_lines.outputs.second_line }}\n\n ${{steps.set_lines.outputs.third_line }}
           echo $issue_body
-          echo "issue_body=$issue_body" >> $GITHUB_OUTPUT
+          echo "issue_body='$issue_body'" >> $GITHUB_OUTPUT
 
   open_issues:
     needs: [generate_body]
