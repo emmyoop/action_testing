@@ -1,0 +1,56 @@
+# **what?**
+# grab multiple labels off an issue and run as a matrix
+
+name: Label Play
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  issues: read
+
+jobs:
+
+  find-labels:
+    runs-on: ubuntu-latest
+    outputs:
+      labels: ${{ steps.generate-labels.outputs.labels }}
+    steps:
+      - name: Generate Labels
+        id: generate-labels
+        run: |
+          LABELS='${{ toJSON(github.event.issue.labels.*.name) }}'
+          echo "labels<<EOF" >> $GITHUB_OUTPUT
+          echo "${LABELS}" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+  print-labels-json-matrix:
+    runs-on: ubuntu-latest
+    needs:
+      - find-labels
+    strategy:
+      matrix:
+        label: ${{ fromJSON(needs.find-labels.outputs.labels) }}
+    steps:
+      - name: "[DEBUG] - Print Job Inputs"
+        shell: bash
+        id: echo_inputs
+        run: |
+          echo "all variables defined as ouputs in previous jobs"
+          echo "Running for label:   ${{ matrix.label }}"
+
+  print-labels-list:
+    runs-on: ubuntu-latest
+    needs:
+      - find-labels
+    steps:
+      - name: "[DEBUG] - Print Job Inputs"
+        shell: bash
+        id: echo_inputs
+        run: |
+          echo "all variables defined as ouputs in previous jobs"
+          echo "fromJSON label:       ${{ fromJSON(needs.find-labels.outputs.labels) }}"
+          echo "Plain text label:     ${{ needs.find-labels.outputs.labels }}"
+
+
