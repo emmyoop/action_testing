@@ -41,7 +41,7 @@ jobs:
     with:
         issue_repository: "emmyoop/action_testing"
         issue_title: "This is my title"
-        issue_template: "bug_report.md"
+        issue_template: "Bug report"
         issue_labels: "needs-docs,bug"
     secrets:
         FISHTOWN_BOT_PAT: ${{ secrets.FISHTOWN_BOT_PAT }}
