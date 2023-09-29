@@ -25,6 +25,8 @@ jobs:
       - name: A different way to print labels
         run: |
           gh api --jq '.labels.[].name' /repos/{owner}/{repo}/pulls/${{ github.event.number }}
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   conditional_labels:
     if: (contains( github.event.pull_request.labels.*.name, 'user docs') && github.event.pull_request.merged == true) || (github.event.label.name == 'user docs' && github.event.pull_request.labeled == true )
