@@ -10,8 +10,7 @@ defaults:
   run:
     shell: bash
 
-permissions:
-    all: read
+permissions: read-all
 
 
 jobs:
