@@ -22,6 +22,9 @@ jobs:
         run: |
             echo "All the labels are: ${{ github.event.pull_request.labels.*.name }}"
             echo "The event label is: ${{ github.event.pull_request.label.name }}"
+      - name: A different way to print labels
+        run: |
+          gh api --jq '.labels.[].name' /repos/{owner}/{repo}/pulls/${{ github.event.number }}
 
   conditional_labels:
     if: (contains( github.event.pull_request.labels.*.name, 'user docs') && github.event.pull_request.merged == true) || (github.event.label.name == 'user docs' && github.event.pull_request.labeled == true )
