@@ -28,7 +28,7 @@ jobs:
           echo "the label was added"
 
   conditional_labels:
-    if: (contains( github.event.pull_request.labels.*.name, 'user docs') && github.event.pull_request.merged == true) || (github.event.label.name == 'user docs' && github.event.pull_request.labeled == true )
+    if: (contains( github.event.pull_request.labels.*.name, 'user docs') && github.event.pull_request.merged == true) || (github.event.label.name == 'user docs' && github.event.name == 'labeled' )
     runs-on: ubuntu-latest
     steps:
       - name: Echo the labels
