@@ -26,6 +26,7 @@ jobs:
         if: github.event.label.name == 'user docs'
         run: |
           echo "the label was added"
+          echo "${{ github.event.name }} is the event name"
 
   conditional_labels:
     if: (contains( github.event.pull_request.labels.*.name, 'user docs') && github.event.pull_request.merged == true) || (github.event.label.name == 'user docs' && github.event.name == 'labeled' )
