@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   open_issues:
-    if: (contains( github.event.pull_request.labels.*.name, 'user docs') && github.event.pull_request.merged == true) || (github.event.label.name == 'user_docs' && github.event.pull_request.labeled == true )
+    if: (contains( github.event.pull_request.labels.*.name, 'user docs') && github.event.pull_request.merged == true) || (github.event.label.name == 'user docs' && github.event.pull_request.labeled == true )
     runs-on: ubuntu-latest
     steps:
         - name: Echo the labels
