@@ -24,7 +24,7 @@ jobs:
             echo "The event label is: ${{ github.event.pull_request.label.name }}"
       - name: A different way to print labels
         run: |
-          gh api --jq '.labels.[].name' /repos/{owner}/{repo}/pulls/${{ github.event.number }}
+          gh --repo ${{ github.repository }} api --jq '.labels.[].name' /repos/{owner}/{repo}/pulls/${{ github.event.number }}
         env:
           GH_TOKEN: ${{ github.token }}
 
