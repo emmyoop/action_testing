@@ -30,7 +30,7 @@ jobs:
           echo "event type is:" ${{ github.event.action }} 
 
   conditional_labels:
-    if: (contains( github.event.pull_request.labels.*.name, 'user docs') && github.event.pull_request.merged == true) || (github.event.label.name == 'user docs' && github.event_name == 'labeled' )
+    if: (contains( github.event.pull_request.labels.*.name, 'user docs') && github.event.pull_request.merged == true) || (github.event.label.name == 'user docs' && github.event.action == 'labeled' )
     runs-on: ubuntu-latest
     steps:
       - name: Echo the labels
