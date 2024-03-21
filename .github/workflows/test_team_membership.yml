@@ -33,37 +33,37 @@ on:
           default: 'core-group'
   
 defaults:
-run:
+  run:
     shell: bash
 
 permissions:  read-all
 
 jobs:
-team-membership:
-  runs-on: ubuntu-latest
-  outputs:
-  team_membership: ${{ steps.set_team_membership.outputs.team_membership }}
-  steps:
-    - name: "Set json File Name"
-      id: json_file
-      run: |
-        echo "name=output_$GITHUB_RUN_ID.json" >> $GITHUB_OUTPUT
+  team-membership:
+    runs-on: ubuntu-latest
+    outputs:
+      team_membership: ${{ steps.set_team_membership.outputs.team_membership }}
+    steps:
+      - name: "Set json File Name"
+        id: json_file
+        run: |
+          echo "name=output_$GITHUB_RUN_ID.json" >> $GITHUB_OUTPUT
 
-    - name: "Get Team Membership"
-      run: |
-        gh api -H "Accept: application/vnd.github+json" orgs/rockmans/teams/${{ inputs.github-team }}/members > ${{ steps.json_file.outputs.name }}
-        env:
-        GH_TOKEN: ${{ secrets.IT_TEAM_MEMBERSHIP }}
+      - name: "Get Team Membership"
+        run: |
+          gh api -H "Accept: application/vnd.github+json" orgs/rockmans/teams/${{ inputs.github-team }}/members > ${{ steps.json_file.outputs.name }}
+          env:
+          GH_TOKEN: ${{ secrets.IT_TEAM_MEMBERSHIP }}
 
-    - name: "Convert file to space delimited list"
-      id: set_team_membership
-      run: |
-        team_list=$(jq -r '.[].login' ${{ steps.json_file.outputs.name }})
-        echo $team_list
-        team_list_single=$(echo $team_list | tr '\n' ' ')
-        echo $team_list_single
-        echo "team_membership=$team_list_single" >> $GITHUB_OUTPUT
+      - name: "Convert file to space delimited list"
+        id: set_team_membership
+        run: |
+          team_list=$(jq -r '.[].login' ${{ steps.json_file.outputs.name }})
+          echo $team_list
+          team_list_single=$(echo $team_list | tr '\n' ' ')
+          echo $team_list_single
+          echo "team_membership=$team_list_single" >> $GITHUB_OUTPUT
 
-    - name: "Delete the json File"
-     s run: |
-        rm ${{ steps.json_file.outputs.name }}
+      - name: "Delete the json File"
+        run: |
+          rm ${{ steps.json_file.outputs.name }}
