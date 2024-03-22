@@ -1,16 +1,6 @@
-# **what?**
-# Open an issue in docs.getdbt.com when a PR is labeled `user docs`
-
-# **why?**
-# To reduce barriers for keeping docs up to date
-
-# **when?**
-# When a PR is labeled `user docs` and is merged.  Runs on pull_request_target to run off the workflow already merged,
-# not the workflow that existed on the PR branch.  This allows old PRs to get comments.
 
 
-name: Open issues in docs.getdbt.com repo when a PR is labeled
-run-name: "Open an issue in docs.getdbt.com for PR #${{ github.event.pull_request.number }}"
+name: Output Issue Metadata
 
 on:
   issues:
@@ -21,8 +11,7 @@ defaults:
     shell: bash
 
 permissions:
-    issues: write # opens new issues
-    pull-requests: write # comments on PRs
+    issues: read # opens new issues
 
 
 jobs:
@@ -32,5 +21,7 @@ jobs:
       - name: "Is the issue open?"
         id: is_open
         run: |
-          echo ${{ github.event.issue.closed }}
-          echo ${{ github.event.issue.open }}
+          echo ${{ github.event.issue.state }}
+          echo ${{ github.event.issue.number }}
+          echo ${{ github.event.issue.state_reason }}
+          echo ${{ github.event.issue.comments }}
