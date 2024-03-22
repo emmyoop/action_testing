@@ -19,7 +19,8 @@ defaults:
     shell: bash
 
 permissions:
-    pull-requests: write # labels PRs
+    issues: write # labels PRs
+    # pull-requests: write # labels PRs
 
 jobs:
   open_issues:
