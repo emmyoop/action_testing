@@ -21,18 +21,15 @@ defaults:
 permissions:
     pull-requests: write # labels PRs
 
-env:
-  PR_LABEL: "community"
-
 jobs:
   open_issues:
     # If this PR already has the community label, no need to relabel it
     # If this PR is opened as draft, no need to label it
     if: |
-      (!contains(github.event.pull_request.labels.*.name, '${{ env.PR_LABEL }}') &&
+      (!contains(github.event.pull_request.labels.*.name, 'community') &&
       (github.event.action == 'opened' && github.event.pull_request.draft == false ))
     uses: dbt-labs/actions/.github/workflows/label-community.yml@main
     with:
         github_team: "core"
-        label: ${{ env.PR_LABEL }}
+        label: 'community'
     secrets: inherit
