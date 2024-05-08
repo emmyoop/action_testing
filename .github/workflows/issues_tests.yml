@@ -5,6 +5,8 @@ name: Output Issue Metadata
 on:
   issues:
     types: [labeled, closed]
+  pull_request_target:
+    types: [labeled, closed]
 
 defaults:
   run:
@@ -25,3 +27,10 @@ jobs:
           echo ${{ github.event.issue.number }}
           echo ${{ github.event.issue.state_reason }}
           echo ${{ github.event.issue.comments }}
+      - name: "Is the issue open?"
+        run: |
+          echo ${{ github.event.issue.pr.number }}
+          echo ${{ github.event.pull_request.number }}
+      - name: "Pick one"
+        run: |
+          echo ${{ github.event.pull_request.number || github.event.issue.number }}
