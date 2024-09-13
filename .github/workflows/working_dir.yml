@@ -19,30 +19,35 @@ jobs:
               with:
                 python-version: "${{ env.PYTHON_VERSION }}"
 
-            - name: "Update branches"
+            - name: "ls"
               run: |
                 ls
-            
-            - name: "Update branches"
-              run: |
-                ./script/printing.py
 
-            - name: "Update branches"
+            - name: "ls"
               run: |
                 ls
               working-directory: scripts
 
-            - name: "Update branches"
+            - name: "ls"
               run: |
                 ls
               working-directory: ./scripts
-            
-            - name: "Update branches"
+
+            - name: "ls"
+              run: |
+                ls
+              working-directory: s/scripts
+
+            - name: "Run script"
+              run: |
+                ./script/printing.py
+
+            - name: "Run script"
               run: |
                 ./printing.py
               working-directory: ./scripts
             
-            - name: "Update branches"
+            - name: "Run script"
               run: |
                 ./printing.py
               working-directory: scripts
