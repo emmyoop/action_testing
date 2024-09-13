@@ -1,0 +1,48 @@
+
+
+name: How do working dirs work
+
+on:
+    workflow_dispatch:
+
+
+jobs:
+    update-branches:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: "Checkout repository"
+              uses: actions/checkout@v4
+
+            - name: "Set up Python"
+              uses: actions/setup-python@v5
+              with:
+                python-version: "${{ env.PYTHON_VERSION }}"
+
+            - name: "Update branches"
+              run: |
+                ls
+            
+            - name: "Update branches"
+              run: |
+                ./script/printing.py
+
+            - name: "Update branches"
+              run: |
+                ls
+              working-directory: scripts
+
+            - name: "Update branches"
+              run: |
+                ls
+              working-directory: ./scripts
+            
+            - name: "Update branches"
+              run: |
+                ./printing.py
+              working-directory: ./scripts
+            
+            - name: "Update branches"
+              run: |
+                ./printing.py
+              working-directory: scripts
