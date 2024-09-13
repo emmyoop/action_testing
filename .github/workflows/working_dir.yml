@@ -33,15 +33,6 @@ jobs:
                 ls
               working-directory: ./scripts
 
-            - name: "ls"
-              run: |
-                ls
-              working-directory: s/scripts
-
-            - name: "Run script"
-              run: |
-                ./script/printing.py
-
             - name: "Run script"
               run: |
                 ./printing.py
