@@ -38,7 +38,7 @@ jobs:
           echo Job 3
 
   conditional-job:
-    if: ${{ always() && (needs.skipped-job.result == 'success' || needs.skipped-job.result == 'skipped') && (needs.job4.result == 'success') && (needs.job3.result == 'success') }}
+    if: ${{ always() && (needs.skipped-job.result == 'success' || needs.skipped-job.result == 'skipped') && (needs.job3.result == 'success') }}
     name: Conditional Job
     runs-on: ubuntu-latest
     needs:
