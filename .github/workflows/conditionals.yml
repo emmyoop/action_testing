@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Echo Job 2
         run: |
-        echo Job 2
+          echo Job 2
 
   job3:
     name: Job 3
