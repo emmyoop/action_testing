@@ -17,7 +17,7 @@ jobs:
 
   skipped-job:
     # always skip!
-    if: ${{ github.event_name == 'workflow_dispatch'}}
+    if: ${{ github.event_name != 'workflow_dispatch'}}
     name: Skipped Job
     runs-on: ubuntu-latest
     needs:
@@ -48,7 +48,6 @@ jobs:
         run: |
           echo Job 4
 
-
   job5:
     if: ${{ always() && (needs.skipped-job.result == 'success' || needs.skipped-job.result == 'skipped') && (needs.job4.result == 'success') && (needs.job3.result == 'success') }}
     name: Job 5
@@ -63,7 +62,8 @@ jobs:
           echo Job 5
 
   job6:
-    name: Job 6
+    name: "Job 6 with always()"
+    if: ${{ always }}
     runs-on: ubuntu-latest
     needs:
       - job5
@@ -73,7 +73,8 @@ jobs:
           echo Job 6
 
   job7:
-    name: Job 7
+    name: "Job 7 with always()"
+    if: ${{ always }}
     runs-on: ubuntu-latest
     needs:
       - job6
@@ -82,3 +83,14 @@ jobs:
       - name: Echo Job 7
         run: |
           echo Job 7
+
+  job8:
+    name: "Job 8 no always()"
+    runs-on: ubuntu-latest
+    needs:
+      - job6
+      - job5
+    steps:
+      - name: Echo Job 8
+        run: |
+          echo Job 8
