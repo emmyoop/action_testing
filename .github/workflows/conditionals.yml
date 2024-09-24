@@ -36,24 +36,12 @@ jobs:
       - name: Echo Job 3
         run: |
           echo Job 3
-  
-
-  job4:
-    name: Job 4
-    runs-on: ubuntu-latest
-    needs:
-      - job1
-    steps:
-      - name: Echo Job 4
-        run: |
-          echo Job 4
 
   conditional-job:
     if: ${{ always() && (needs.skipped-job.result == 'success' || needs.skipped-job.result == 'skipped') && (needs.job4.result == 'success') && (needs.job3.result == 'success') }}
     name: Conditional Job
     runs-on: ubuntu-latest
     needs:
-      - job4
       - skipped-job
       - job3
     steps:
@@ -96,7 +84,7 @@ jobs:
           echo Job 8
 
   job9:
-    name: "Job 9 no always() only job6"
+    name: "Job 9 always() only job6"
     if: ${{ always() }}
     runs-on: ubuntu-latest
     needs:
@@ -112,6 +100,26 @@ jobs:
     needs:
       - job6
     steps:
-      - name: Echo Job 9
+      - name: Echo Job 10
         run: |
-          echo Job 9
+          echo Job 10
+
+  job11:
+    name: "Job 11 no always() only job9"
+    runs-on: ubuntu-latest
+    needs:
+      - job9
+    steps:
+      - name: Echo Job 11
+        run: |
+          echo Job 11
+
+  job12:
+    name: "Job 12 no always() only job11"
+    runs-on: ubuntu-latest
+    needs:
+      - job11
+    steps:
+      - name: Echo Job 11
+        run: |
+          echo Job 11
