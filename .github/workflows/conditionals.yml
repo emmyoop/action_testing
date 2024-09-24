@@ -63,7 +63,7 @@ jobs:
 
   job6:
     name: "Job 6 with always()"
-    if: ${{ always }}
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     needs:
       - job5
@@ -74,7 +74,7 @@ jobs:
 
   job7:
     name: "Job 7 with always()"
-    if: ${{ always }}
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     needs:
       - job6
