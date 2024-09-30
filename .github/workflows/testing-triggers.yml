@@ -1,0 +1,42 @@
+
+
+
+name: "Testing Workflow Trigger Conditionals"
+
+on:
+  schedule:
+    - cron: "* * * * *" # run every minute
+  workflow_dispatch:
+
+
+permissions: read-all
+
+jobs:
+  job_schedule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          echo "running"
+  job_not_schedule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output
+        if: ${{ github.event_name != 'schedule' }}
+        run: |
+          echo "running"
+  job_workflow_dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          echo "running"
+  job_not_workflow_dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output
+        if: ${{ github.event_name != 'workflow_dispatch' }}
+        run: |
+          echo "running"
