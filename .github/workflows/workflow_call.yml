@@ -1,7 +1,7 @@
 # used to call other workflows in testing
 
 
-name: "Testing Workflow Trigger Conditionals"
+name: "Testing Workflow Call"
 
 on:
   schedule:
