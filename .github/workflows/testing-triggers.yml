@@ -7,6 +7,10 @@ on:
   schedule:
     - cron: "* * * * *" # run every minute
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      test:
+        type: string
 
 
 permissions: read-all
@@ -18,25 +22,39 @@ jobs:
       - name: Set output
         if: ${{ github.event_name == 'schedule' }}
         run: |
-          echo "running"
+          echo "running with ${{ github.event.inputs.test }}"
   job_not_schedule:
     runs-on: ubuntu-latest
     steps:
       - name: Set output
         if: ${{ github.event_name != 'schedule' }}
         run: |
-          echo "running"
+          echo "running with ${{ github.event.inputs.test }}"
   job_workflow_dispatch:
     runs-on: ubuntu-latest
     steps:
       - name: Set output
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
-          echo "running"
+          echo "running with ${{ github.event.inputs.test }}"
   job_not_workflow_dispatch:
     runs-on: ubuntu-latest
     steps:
       - name: Set output
         if: ${{ github.event_name != 'workflow_dispatch' }}
         run: |
-          echo "running"
+          echo "running with ${{ github.event.inputs.test }}"
+  job_workflow_call:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output
+        if: ${{ github.event_name == 'workflow_call' }}
+        run: |
+          echo "running with ${{ github.event.inputs.test }}"
+  job_not_workflow_call:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output
+        if: ${{ github.event_name != 'workflow_call' }}
+        run: |
+          echo "running with ${{ github.event.inputs.test }}"
