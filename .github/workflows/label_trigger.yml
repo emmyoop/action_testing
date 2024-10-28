@@ -40,3 +40,19 @@ jobs:
         run: |
             echo "The PR is merged: ${{ github.event.pull_request.merged }}"
             echo "The event label is: ${{ github.event.label.name }}"
+  
+  minor_conditional_labels:
+    if: ${{ contains(github.event.pull_request.label.name, 'special label') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo the labels
+        run: |
+            echo "Triggered by the special label"
+  
+  minor_conditional_labels_retrigger:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'special label') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo the labels
+        run: |
+            echo "Triggered by any label"

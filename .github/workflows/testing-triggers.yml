@@ -1,0 +1,66 @@
+
+
+
+name: "Testing Workflow Trigger Conditionals"
+
+on:
+  schedule:
+    - cron: "* * * * *" # run every minute
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      test:
+        type: string
+
+
+permissions: read-all
+
+jobs:
+  job_schedule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          echo "running with ${{ github.event.inputs.test }}"
+          echo "Called by workflow: ${{ github.event.workflow_call.workflow }}"
+  job_not_schedule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output
+        if: ${{ github.event_name != 'schedule' }}
+        run: |
+          echo "running with ${{ github.event.inputs.test }}"
+          echo "Called by workflow: ${{ github.event.workflow_call.workflow }}"
+  job_workflow_dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          echo "running with ${{ github.event.inputs.test }}"
+          echo "Called by workflow: ${{ github.event.workflow_call.workflow }}"
+  job_not_workflow_dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output
+        if: ${{ github.event_name != 'workflow_dispatch' }}
+        run: |
+          echo "running with ${{ github.event.inputs.test }}"
+          echo "Called by workflow: ${{ github.event.workflow_call.workflow }}"
+  job_workflow_call:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output
+        if: ${{ github.event_name == 'workflow_call' }}
+        run: |
+          echo "running with ${{ github.event.inputs.test }}"
+          echo "Called by workflow: ${{ github.event.workflow_call.workflow }}"
+  job_not_workflow_call:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output
+        if: ${{ github.event_name != 'workflow_call' }}
+        run: |
+          echo "running with ${{ github.event.inputs.test }}"
+          echo "Called by workflow: ${{ github.event.workflow_call.workflow }}"
