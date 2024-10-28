@@ -50,7 +50,7 @@ jobs:
             echo "Triggered by the special label"
   
   minor_conditional_labels_retrigger:
-    if: ${{ ${{ contains(github.event.pull_request.labels.*.name, 'special label') }}}}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'special label') }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo the labels
