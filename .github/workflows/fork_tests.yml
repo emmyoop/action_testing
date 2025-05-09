@@ -23,7 +23,7 @@ jobs:
                 ${{ github.event.pull_request.head.repo.full_name != github.repository }} &&
                 ${{ contains(github.event.pull_request.labels.*.name, env.CI_LABEL) }}
             run: |
-                echo "Synchronizing PR, removing `${{ env.CI_LABEL }}` label"
+                echo "Synchronizing PR, removing '${{ env.CI_LABEL }}' label"
                 gh pr edit ${{ github.event.pull_request.number }} --remove-label ${{ env.CI_LABEL }}
             env:
                 GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
