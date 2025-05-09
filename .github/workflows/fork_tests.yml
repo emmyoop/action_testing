@@ -26,10 +26,10 @@ jobs:
                 GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         -   name: "Check that forks have the '${{ env.CI_LABEL }}' label"
-            if: ${{ github.event.pull_request.head.repo.full_name != github.repository }} && !contains(github.event.pull_request.labels.*.name, env.CI_LABEL) }}
+            if: ${{ github.event.pull_request.head.repo.full_name != github.repository && !contains(github.event.pull_request.labels.*.name, env.CI_LABEL) }}
             run: |
                 echo "${{ github.event.pull_request.head.repo.full_name != github.repository }}"
-                echo "${{ github.event.pull_request.head.repo.full_name }}""
+                echo "${{ github.event.pull_request.head.repo.full_name }}"
                 echo "${{ github.repository }}"
                 echo "${{ !contains(github.event.pull_request.labels.*.name, env.CI_LABEL) }}"
                 echo ${{ github.event.pull_request.labels }}
