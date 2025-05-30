@@ -1,4 +1,4 @@
-name: Check Changelog Entry
+name: Check Skipping Steps
 
 on:
   workflow_dispatch:
@@ -10,13 +10,13 @@ defaults:
 permissions: read-all
 
 jobs:
-  check_changes:
+  skip-all-steps:
     permissions: read-all
     uses: ./.github/workflows/workflow_skips.yml
 
-  cli-changelog:
+  echo-line:
     name: "Check for changelog entry in cli"
     runs-on: ubuntu-latest
-    needs: check_changes
+    needs: skip-all-steps
     steps:
       - run: echo "running"
