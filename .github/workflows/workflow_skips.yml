@@ -1,0 +1,22 @@
+name: Skipping
+
+on:
+  workflow_call:
+
+permissions: read-all
+
+jobs:
+  skip:
+    name: "skip everything"
+    runs-on: [ubuntu-latest]
+    permissions: read-all
+    steps:
+      - id: changes
+        # we only have files to check on pull_request triggers
+        if: false
+        run: echo "didn't skip"
+
+      - name: Debug Outputs
+        if: false
+        run: |
+          echo "another non skip"
