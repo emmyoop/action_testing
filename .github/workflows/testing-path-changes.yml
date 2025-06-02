@@ -1,0 +1,71 @@
+# **what?**
+# Reusable workflow to check for changes in specific paths.
+
+# **why?**
+# Provide a single source of truth for checking which components have changed.
+
+# **when?**
+# This workflow is called by other workflows that need to know which components
+# have been modified in a PR or push.
+
+name: Check Component Changes
+
+on:
+  pull_request:
+
+permissions: read-all
+
+jobs:
+  predicate-quantifier-some:
+    name: "Check for changes in some path"
+    runs-on: [ubuntu-latest]
+    permissions: read-all
+    steps:
+      - uses: dorny/paths-filter@v3
+        id: changes
+        # we only have files to check on pull_request triggers
+        with:
+          # filter exclusions below only take effect when predicate_quantifier is 'every'
+          predicate-quantifier: 'some'
+          filters: |
+            core_changed:
+              - 'package/**'
+              - '!package/**/tests/**'
+              - '!package/**/*.md'
+              - '!package/.changes/**'
+              - '!package/.changie.yaml'
+            scripts_changed:
+              - 'scripts/**'
+              - '!scripts/**/*.md''
+
+      - name: Debug Outputs
+        run: |
+          echo "core_changed: ${{ steps.changes.outputs.core_changed }}"
+          echo "scripts_changed: ${{ steps.changes.outputs.scripts_changed }}"
+
+  predicate-quantifier-every:
+    name: "Check for changes in every path"
+    runs-on: [ubuntu-latest]
+    permissions: read-all
+    steps:
+      - uses: dorny/paths-filter@v3
+        id: changes
+        # we only have files to check on pull_request triggers
+        with:
+          # filter exclusions below only take effect when predicate_quantifier is 'every'
+          predicate-quantifier: 'every'
+          filters: |
+            core_changed:
+              - 'package/**'
+              - '!package/**/tests/**'
+              - '!package/**/*.md'
+              - '!package/.changes/**'
+              - '!package/.changie.yaml'
+            scripts_changed:
+              - 'scripts/**'
+              - '!scripts/**/*.md''
+
+      - name: Debug Outputs
+        run: |
+          echo "core_changed: ${{ steps.changes.outputs.core_changed }}"
+          echo "scripts_changed: ${{ steps.changes.outputs.scripts_changed }}"
