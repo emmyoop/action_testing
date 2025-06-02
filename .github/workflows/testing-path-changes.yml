@@ -25,23 +25,30 @@ jobs:
         id: changes
         # we only have files to check on pull_request triggers
         with:
-          # filter exclusions below only take effect when predicate_quantifier is 'every'
-          predicate-quantifier: 'some'
           filters: |
             core_changed:
-              - 'package/**'
-              - '!package/**/tests/**'
-              - '!package/**/*.md'
-              - '!package/.changes/**'
-              - '!package/.changie.yaml'
+              - 'core/package/**'
+            core_changed_changelog:
+              - 'core/package/**'
+              - '!core/package/**/tests/**'
+              - '!core/package/**/*.md'
+              - '!core/package/.changes/**'
+              - '!core/package/.changie.yaml'
             scripts_changed:
               - 'scripts/**'
-              - '!scripts/**/*.md''
+            scripts_changed_changelog:
+              - 'scripts/**'
+              - '!scripts/**/*.md'
+              - '!scripts/.changes/**'
+              - '!scripts/.changie.yaml'
 
       - name: Debug Outputs
         run: |
           echo "core_changed: ${{ steps.changes.outputs.core_changed }}"
+          echo "core_changed_changelog: ${{ steps.changes.outputs.core_changed_changelog }}"
           echo "scripts_changed: ${{ steps.changes.outputs.scripts_changed }}"
+          echo "scripts_changed_changelog: ${{ steps.changes.outputs.scripts_changed_changelog }}"
+
 
   predicate-quantifier-every:
     name: "Check for changes in every path"
@@ -52,20 +59,27 @@ jobs:
         id: changes
         # we only have files to check on pull_request triggers
         with:
-          # filter exclusions below only take effect when predicate_quantifier is 'every'
           predicate-quantifier: 'every'
           filters: |
             core_changed:
-              - 'package/**'
-              - '!package/**/tests/**'
-              - '!package/**/*.md'
-              - '!package/.changes/**'
-              - '!package/.changie.yaml'
+              - 'core/package/**'
+            core_changed_changelog:
+              - 'core/package/**'
+              - '!core/package/**/tests/**'
+              - '!core/package/**/*.md'
+              - '!core/package/.changes/**'
+              - '!core/package/.changie.yaml'
             scripts_changed:
               - 'scripts/**'
-              - '!scripts/**/*.md''
+            scripts_changed_changelog:
+              - 'scripts/**'
+              - '!scripts/**/*.md'
+              - '!scripts/.changes/**'
+              - '!scripts/.changie.yaml'
 
       - name: Debug Outputs
         run: |
           echo "core_changed: ${{ steps.changes.outputs.core_changed }}"
+          echo "core_changed_changelog: ${{ steps.changes.outputs.core_changed_changelog }}"
           echo "scripts_changed: ${{ steps.changes.outputs.scripts_changed }}"
+          echo "scripts_changed_changelog: ${{ steps.changes.outputs.scripts_changed_changelog }}"
