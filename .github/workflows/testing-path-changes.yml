@@ -1,0 +1,50 @@
+# **what?**
+# Reusable workflow to check for changes in specific paths.
+
+# **why?**
+# Provide a single source of truth for checking which components have changed.
+
+# **when?**
+# This workflow is called by other workflows that need to know which components
+# have been modified in a PR or push.
+
+name: Check Component Changes
+
+on:
+  pull_request:
+
+permissions: read-all
+
+jobs:
+  predicate-quantifier-some:
+    name: "Check for changes in some path"
+    runs-on: [ubuntu-latest]
+    permissions: read-all
+    steps:
+      - uses: dorny/paths-filter@v3
+        id: changes
+        # we only have files to check on pull_request triggers
+        with:
+          filters: |
+            core_changed:
+              - 'core/package/**'
+            core_changed_changelog:
+              - 'core/package/**'
+              - '!core/package/**/tests/**'
+              - '!core/package/**/*.md'
+              - '!core/package/.changes/**'
+              - '!core/package/.changie.yaml'
+            scripts_changed:
+              - 'scripts/**'
+            scripts_changed_changelog:
+              - 'scripts/**'
+              - '!scripts/**/*.md'
+              - '!scripts/.changes/**'
+              - '!scripts/.changie.yaml'
+
+      - name: Debug Outputs
+        run: |
+          echo "core_changed: ${{ steps.changes.outputs.core_changed }}"
+          echo "core_changed_changelog: ${{ steps.changes.outputs.core_changed_changelog }}"
+          echo "scripts_changed: ${{ steps.changes.outputs.scripts_changed }}"
+          echo "scripts_changed_changelog: ${{ steps.changes.outputs.scripts_changed_changelog }}"
