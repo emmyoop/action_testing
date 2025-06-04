@@ -1,7 +1,0 @@
-kind: Dependency
-body: "Update new_file.py"
-time: 2022-08-30T19:32:20.00000Z
-custom:
-  Author: emmyoop
-  Issue: 4904
-  PR: 21
