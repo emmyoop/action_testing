@@ -1,0 +1,116 @@
+# **what?**
+# Generate changelog.md files for the CLI, LSP, and dbt-fusion.
+
+# **why?**
+# Generate changelog.md files for the CLI, LSP, and dbt-fusion.
+
+# **when?**
+# Called by other workflows or manually.
+
+
+name: "Generate Changelog.md"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to generate changelog for"
+        type: string
+        required: true
+      dry_run:
+        description: "Whether to run the workflow in dry run mode"
+        type: boolean
+        required: false
+        default: false
+      branch:
+        description: "Branch to create the changelog PR on"
+        type: string
+        required: true
+
+  workflow_call:
+    inputs:
+      version:
+        description: "Version to generate changelog for"
+        type: string
+        required: true
+      dry_run:
+        description: "Whether to run the workflow in dry run mode"
+        type: boolean
+        required: false
+        default: false
+      branch:
+        description: "Branch to create the changelog PR on"
+        type: string
+        required: true
+
+permissions:
+  contents: write
+  checks: write
+
+defaults:
+  run:
+    shell: bash --noprofile --norc -euo pipefail {0}
+
+env:
+  NOTIFICATION_PREFIX: "[Changelog Generation]"
+
+jobs:
+  generate-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout ${{ github.repository }}"
+        uses: actions/checkout@v4
+
+      - name: "Add Homebrew To PATH"
+        run: |
+          echo "/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin" >> $GITHUB_PATH
+
+      - name: "Install Homebrew Packages"
+        run: |
+          brew tap miniscruff/changie https://github.com/miniscruff/changie
+          brew install changie
+
+      - name: "Generate Changelog"
+        run: |
+          changie batch ${{ inputs.version }}
+          changie merge
+
+      - name: Create Pull Request
+        id: create_pull_request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.MY_PAT_TOKEN }} #this shouldn't be github token so it triggers on pull request workflows
+          commit-message: "chore: update changelog for ${{ inputs.version }}"
+          title: "Update changelog for ${{ inputs.version }}"
+          body: |
+            This PR updates the changelog for ${{ inputs.version }}.
+
+            This is an automated PR created by the release workflow.
+          branch: ${{ inputs.branch }}
+          base: main
+
+      - name: "PR Notification"
+        run: |
+          title="Changelog PR Created"
+          message="Changelog PR created for ${{ inputs.version }} at ${{ steps.create_pull_request.outputs.pull-request-url }}"
+          echo "::notice title=${{ env.NOTIFICATION_PREFIX }}: $title::$message"
+
+      - name: "Give CI a chance to start"
+        if: ${{ inputs.dry_run == false }}
+        run: |
+          sleep 120
+
+      - name: "Monitor CI for completion"
+        if: ${{ inputs.dry_run == false }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.FA_ASSISTANT_CI_WORKFLOW_PAT_TOKEN }}
+        run: |
+          gh pr checks ${{ steps.create_pull_request.outputs.pull-request-number }} --watch --fail-fast
+
+      - name: "Auto merge fs version bump PR"
+        if: ${{ inputs.dry_run == false }}
+        env:
+          GH_TOKEN: ${{ secrets.FA_ASSISTANT_CI_WORKFLOW_PAT_TOKEN }}
+        run: |
+          gh pr merge "${{ steps.create_pull_request.outputs.pull-request-number }}" --squash --admin --repo ${{ github.repository }}
