@@ -104,13 +104,13 @@ jobs:
         if: ${{ inputs.dry_run == false }}
         shell: bash
         env:
-          GH_TOKEN: ${{ secrets.FA_ASSISTANT_CI_WORKFLOW_PAT_TOKEN }}
+          GH_TOKEN: ${{ secrets.MY_PAT_TOKEN }}
         run: |
           gh pr checks ${{ steps.create_pull_request.outputs.pull-request-number }} --watch --fail-fast
 
       - name: "Auto merge fs version bump PR"
         if: ${{ inputs.dry_run == false }}
         env:
-          GH_TOKEN: ${{ secrets.FA_ASSISTANT_CI_WORKFLOW_PAT_TOKEN }}
+          GH_TOKEN: ${{ secrets.MY_PAT_TOKEN }}
         run: |
           gh pr merge "${{ steps.create_pull_request.outputs.pull-request-number }}" --squash --admin --repo ${{ github.repository }}
